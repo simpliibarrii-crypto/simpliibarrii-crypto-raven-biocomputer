@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 import uuid
+from collections.abc import Mapping
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any
 
 from .integrations import build_integrations
 from .models import ArtifactRecord, RunReceipt
