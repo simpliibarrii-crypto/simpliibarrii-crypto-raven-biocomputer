@@ -17,7 +17,12 @@ class BiologyPolicy:
     BLOCKED_RULES = {
         "arbitrary-shell": ("shell", "terminal", "bash", "powershell", "sudo", "exec command"),
         "credential-access": ("password", "api key", "secret token", "private key", "credential"),
-        "network-exfiltration": ("upload private", "exfiltrate", "send patient data", "bypass firewall"),
+        "network-exfiltration": (
+            "upload private",
+            "exfiltrate",
+            "send patient data",
+            "bypass firewall",
+        ),
     }
 
     REVIEW_RULES = {
