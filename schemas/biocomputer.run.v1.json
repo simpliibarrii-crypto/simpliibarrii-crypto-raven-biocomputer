@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/simpliibarrii-crypto/raven-biocomputer/schemas/biocomputer.run.v1.json",
+  "title": "Raven BioComputer Run Receipt",
+  "type": "object",
+  "required": [
+    "schema",
+    "run_id",
+    "task",
+    "tool",
+    "status",
+    "started_at",
+    "policy",
+    "input_digest",
+    "result",
+    "artifacts",
+    "integrations"
+  ],
+  "properties": {
+    "schema": { "const": "raven.biocomputer.run.v1" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "task": { "type": "string" },
+    "tool": { "type": "string" },
+    "status": { "enum": ["running", "completed", "blocked", "failed"] },
+    "started_at": { "type": "string", "format": "date-time" },
+    "completed_at": { "type": ["string", "null"], "format": "date-time" },
+    "policy": { "type": "object" },
+    "input_digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "result": { "type": "object" },
+    "artifacts": { "type": "array", "items": { "type": "object" } },
+    "error": { "type": ["string", "null"] },
+    "integrations": { "type": "object" }
+  },
+  "additionalProperties": false
+}

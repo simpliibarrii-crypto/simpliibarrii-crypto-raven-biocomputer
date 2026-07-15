@@ -1,0 +1,21 @@
+version: 1
+workspace_root: runs
+execution:
+  network: disabled-by-default
+  shell: disabled
+  deterministic_tools_first: true
+  max_payload_bytes: 1000000
+policy:
+  dry_lab: allow
+  clinical_decision: human-review
+  raw_phi: human-review
+  wet_lab_execution: human-review
+  genome_editing: human-review
+  pathogen_engineering: human-review
+  credential_access: block
+integrations:
+  raven_evidence_graph: true
+  jspace_chain: true
+  home_for_ai: true
+  hermes_edge: true
+  openclinical_ai: true
