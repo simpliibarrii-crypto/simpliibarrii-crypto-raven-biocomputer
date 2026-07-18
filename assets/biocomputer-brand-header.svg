@@ -1,0 +1,20 @@
+<svg width="1400" height="360" viewBox="0 0 1400 360" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Raven BioComputer</title><desc id="desc">A private workstation for biology agents in the Raven AI ecosystem.</desc>
+  <defs>
+    <radialGradient id="bg" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1150 40) rotate(143) scale(600 470)"><stop stop-color="#35131C"/><stop offset=".5" stop-color="#0D0D0F"/><stop offset="1" stop-color="#050505"/></radialGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#F04460"/><stop offset="1" stop-color="#8A1528"/></linearGradient>
+    <pattern id="grid" width="38" height="38" patternUnits="userSpaceOnUse"><path d="M38 0H0V38" stroke="#FFFFFF" stroke-opacity=".035"/></pattern>
+  </defs>
+  <rect width="1400" height="360" rx="28" fill="url(#bg)"/><rect width="1400" height="360" rx="28" fill="url(#grid)"/><rect x="1" y="1" width="1398" height="358" rx="27" stroke="#FFFFFF" stroke-opacity=".08"/>
+  <text x="78" y="72" fill="#C8273F" font-family="ui-monospace, monospace" font-size="13" letter-spacing="4">RAVEN ECOSYSTEM / BOUNDED BIOLOGY COMPUTE</text>
+  <text x="78" y="160" fill="#F4EFE7" font-family="Georgia, serif" font-size="62" font-weight="600">Raven BioComputer</text>
+  <text x="80" y="208" fill="#C9AD7D" font-family="Avenir Next, Segoe UI, Arial, sans-serif" font-size="25">A private workstation for biology agents.</text>
+  <line x1="80" y1="242" x2="720" y2="242" stroke="url(#red)" stroke-width="3"/>
+  <text x="80" y="283" fill="#8F8A83" font-family="ui-monospace, monospace" font-size="15" letter-spacing="1">DETERMINISTIC TOOLS  ·  ISOLATED RUNS  ·  HASHED RECEIPTS</text>
+  <g transform="translate(1038 48)" stroke="#C8273F" stroke-width="3" fill="none">
+    <path d="M62 20C184 83 64 167 188 234"/><path d="M188 20C66 83 186 167 62 234"/>
+    <g stroke="#C9AD7D" stroke-opacity=".58" stroke-width="2"><path d="M79 48H171"/><path d="M59 83H191"/><path d="M73 119H177"/><path d="M73 155H177"/><path d="M59 191H191"/><path d="M79 226H171"/></g>
+    <rect x="16" y="0" width="218" height="256" rx="28" stroke="#C9AD7D" stroke-opacity=".18"/>
+    <text x="125" y="292" text-anchor="middle" fill="#8F8A83" stroke="none" font-family="ui-monospace, monospace" font-size="11" letter-spacing="2">ALPHA RESEARCH SOFTWARE</text>
+  </g>
+</svg>
