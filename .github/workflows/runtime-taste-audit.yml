@@ -1,0 +1,102 @@
+name: Runtime and Taste Audit
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  workstation-runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install runtime and browser tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e '.[dev,space]'
+          pip install playwright
+          playwright install --with-deps chromium
+      - name: Test, lint, and compile
+        run: |
+          ruff check raven_biocomputer tests app.py scripts/public_release_check.py
+          pytest -q
+          python -m compileall -q raven_biocomputer tests app.py scripts
+      - name: Exercise a bounded task and validate receipts
+        run: |
+          raven-biocomputer run sequence_stats --task 'Runtime taste audit' --payload '{"sequence":"ACGTACGT"}' --run-id runtime-taste
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          run = Path('runs/runtime-taste')
+          assert (run / 'input.json').exists()
+          assert (run / 'result.json').exists()
+          result = json.loads((run / 'result.json').read_text())
+          assert result, result
+          print(result)
+          PY
+      - name: Import and inspect the branded Gradio workstation
+        run: |
+          python - <<'PY'
+          import app
+          assert app.demo is not None
+          assert '#c8273f' in app.BRAND_CSS.lower()
+          print('BioComputer app imported without launching.')
+          PY
+          python app.py > /tmp/biocomputer-space.log 2>&1 &
+          SPACE_PID=$!
+          trap 'kill $SPACE_PID || true' EXIT
+          for i in {1..50}; do curl -fsS http://127.0.0.1:7860 >/dev/null && break; sleep 1; done
+          python - <<'PY'
+          from playwright.sync_api import sync_playwright
+
+          errors = []
+          with sync_playwright() as p:
+              browser = p.chromium.launch(headless=True)
+              for name, viewport in [('desktop', {'width': 1440, 'height': 1000}), ('mobile', {'width': 390, 'height': 844})]:
+                  page = browser.new_page(viewport=viewport)
+                  page.on('console', lambda msg, n=name: errors.append(f'{n}: {msg.text}') if msg.type == 'error' else None)
+                  page.on('pageerror', lambda exc, n=name: errors.append(f'{n}: {exc}'))
+                  page.goto('http://127.0.0.1:7860', wait_until='networkidle')
+                  text = page.locator('body').inner_text()
+                  assert 'Raven BioComputer' in text
+                  assert 'NO AUTONOMOUS WET-LAB EXECUTION' in text
+                  page.screenshot(path=f'biocomputer-{name}.png', full_page=True)
+                  page.close()
+              browser.close()
+          if errors:
+              raise AssertionError('Browser errors:\n' + '\n'.join(errors))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: biocomputer-visual-smoke
+          path: biocomputer-*.png
+
+  taste-and-safety:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Enforce brand and bounded-compute language
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          app = Path('app.py').read_text(encoding='utf-8').lower()
+          readme = Path('README.md').read_text(encoding='utf-8').lower()
+          for token in ('#050505', '#c8273f', '#c9ad7d', '#f4efe7'):
+              assert token in app, f'missing canonical brand token {token}'
+          for phrase in ('alpha research software', 'not a medical device', 'autonomous wet-lab'):
+              assert phrase in app + readme, f'missing safety or maturity phrase: {phrase}'
+          assert 'if __name__ == "__main__"' in app
+          print('BioComputer taste and safety contract passed.')
+          PY
