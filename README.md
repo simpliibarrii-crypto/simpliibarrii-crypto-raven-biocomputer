@@ -1,13 +1,13 @@
 ---
 title: Raven BioComputer
 emoji: 🧬
-colorFrom: gray
+colorFrom: black
 colorTo: red
 sdk: gradio
 app_file: app.py
 pinned: false
 license: apache-2.0
-short_description: A private, auditable biology workstation for AI agents.
+short_description: A private, auditable workstation for bounded computational-biology tasks.
 tags:
 - biology
 - bioinformatics
@@ -19,39 +19,45 @@ tags:
 ---
 
 <p align="center">
-  <strong><a href="https://barry-ai-public.simpliibarrii.chatgpt.site">Explore the complete AI research & projects portfolio →</a></strong>
+  <img src="assets/biocomputer-brand-header.svg" alt="Raven BioComputer — a private workstation for biology agents" width="100%" />
 </p>
 
-# 🧬 Raven BioComputer
+<p align="center">
+  <a href="https://simpliibarrii-crypto.github.io/project.html?project=raven-biocomputer"><img alt="Interactive case study" src="https://img.shields.io/badge/CASE_STUDY-LIVE_DEMO-C8273F?style=for-the-badge&labelColor=050505"></a>
+  <a href="https://simpliibarrii-crypto.github.io/research.html"><img alt="Research archive" src="https://img.shields.io/badge/RESEARCH-ARCHIVE-C9AD7D?style=for-the-badge&labelColor=050505"></a>
+  <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/LICENSE-APACHE_2.0-303036?style=for-the-badge&labelColor=050505"></a>
+</p>
 
-**Give every biology agent a private, auditable computer.**
+> **Raven BioComputer** gives biology agents an isolated run workspace, a registered deterministic tool, a policy decision, and an evidence-linked artifact receipt instead of unrestricted computer access.
 
-Raven BioComputer is an open-source, local-first workstation layer for biology AI. It takes the useful core of agent-computer projects, an isolated workspace with files, tools, and persistent receipts, then reshapes it for reproducible science instead of generic desktop automation.
+**Maturity:** Alpha research software. Not a medical device, clinical decision system, biosafety platform, or autonomous wet-lab controller.
 
-An agent does not receive unrestricted access to your machine. It receives a bounded run workspace, a registered biology tool, a JSpace policy decision, and a Raven Evidence Graph receipt.
+## What works
 
-> Alpha research software. Not a medical device, clinical decision system, biosafety platform, or autonomous wet-lab controller.
-
-## Why it belongs in the Raven stack
-
-| Ecosystem surface | BioComputer role |
-|---|---|
-| Raven AI | Executes bounded biology tasks and returns evidence-linked results |
-| JSpace Chain | Gates each task and records structured policy reflection |
-| Home for AI | Displays local run status, artifacts, replay state, and audit receipts |
-| Hermes Edge | Routes deterministic tools locally before larger models or cloud calls |
-| OpenClinical AI | Receives only reviewed, bounded translational outputs, never automatic clinical decisions |
-
-## What works in v0.1
-
-- Private directory per task
-- Deterministic tools for sequence statistics, reverse complement, motif search, translation, and FASTA summaries
+- Private run directory for every task
+- Deterministic sequence statistics, reverse complement, motif search, translation, and FASTA summaries
 - Dry-lab, human-review, and blocked policy classes
 - SHA-256 input and output artifact receipts
 - Raven Evidence Graph and JSpace Chain envelopes
-- Home for AI, Hermes Edge, and OpenClinical bridge contracts
-- CLI, FastAPI, MCP server, Docker worker, and Gradio Space demo
+- Home for AI, Hermes Edge, and OpenClinical bridge records
+- CLI, FastAPI, MCP server, Docker worker, and Gradio demonstration
 - Zero cloud dependency for the core execution path
+
+## Execution contract
+
+```mermaid
+flowchart LR
+    Agent[Agent request] --> Policy[JSpace policy gate]
+    Policy -->|allowed| Workspace[Isolated run workspace]
+    Workspace --> Tool[Registered biology tool]
+    Tool --> Artifacts[Input and output artifacts]
+    Artifacts --> Receipt[Hashed Raven receipt]
+    Receipt --> Review[Human review]
+
+    style Policy fill:#151518,stroke:#C8273F,color:#F4EFE7
+    style Workspace fill:#151518,stroke:#C9AD7D,color:#F4EFE7
+    style Receipt fill:#151518,stroke:#78D7A0,color:#F4EFE7
+```
 
 ## Quick start
 
@@ -72,7 +78,7 @@ raven-biocomputer run sequence_stats \
   --payload '{"sequence":"ATGGCCATTGTAATGGGCCGCTGA"}'
 ```
 
-The output includes a `raven.biocomputer.run.v1` receipt and writes:
+A successful run writes:
 
 ```text
 runs/<run-id>/
@@ -81,58 +87,35 @@ runs/<run-id>/
 └── receipt.json
 ```
 
-## Optional surfaces
-
-### Gradio / Hugging Face Space
+Launch the branded Gradio workstation:
 
 ```bash
-pip install -e ".[space]"
 python app.py
 ```
 
-### FastAPI
+## Ecosystem role
 
-```bash
-pip install -e ".[api]"
-raven-biocomputer serve --host 0.0.0.0 --port 8042
-```
+| System | BioComputer relationship |
+|---|---|
+| [Raven AI](https://github.com/simpliibarrii-crypto/raven-ai) | Receives bounded computational results with evidence and artifact references |
+| JSpace Chain | Gates tasks and records structured policy reflection |
+| [Home for AI](https://github.com/simpliibarrii-crypto/home-for-ai) | Displays run state, artifacts, replay information, and receipts |
+| [Hermes Edge](https://github.com/simpliibarrii-crypto/hermes-edge) | Routes deterministic local tools before larger models or remote calls |
+| [OpenClinical AI](https://github.com/simpliibarrii-crypto/openclinical-ai) | Receives only reviewed translational outputs, never automatic clinical decisions |
 
-### MCP
+## Safety boundary
 
-```bash
-pip install -e ".[mcp]"
-raven-biocomputer-mcp
-```
+Contributions must remain dry-lab and deterministic. Do not submit patient data, autonomous wet-lab actions, genome-editing execution workflows, pathogen-engineering instructions, or attempts to bypass policy gates.
 
-### Hardened container worker
+## Contributing
 
-```bash
-docker compose run --rm worker
-```
+Start with **[deterministic biology fixtures and artifact receipts](https://github.com/simpliibarrii-crypto/simpliibarrii-crypto-raven-biocomputer/issues/2)**. Useful contributions include test fixtures, reproducible containers, receipt validation, MCP interoperability, and ordinary bioinformatics utilities.
 
-The worker profile runs as non-root, disables networking, drops Linux capabilities, and uses a read-only root filesystem with a writable run mount.
+## Public proof
 
-## Architecture
-
-```mermaid
-flowchart TD
-    User[Researcher or Agent] --> Gate[JSpace Biology Policy Gate]
-    Gate -->|approved dry-lab task| Box[Private BioComputer Workspace]
-    Gate -->|review or block| Audit[Auditable Receipt]
-    Box --> Tools[Registered Biology Tools]
-    Tools --> Hash[Hashed Inputs and Results]
-    Hash --> Evidence[Raven Evidence Graph]
-    Evidence --> Audit
-    Audit --> Home[Home for AI]
-    Audit --> Hermes[Hermes Edge]
-    Audit --> Clinical[OpenClinical AI]
-```
-
-See [Architecture](docs/ARCHITECTURE.md), [Integration](docs/INTEGRATION.md), [Security](docs/SECURITY.md), and [Roadmap](docs/ROADMAP.md).
-
-## Scientific stance
-
-Raven BioComputer is intentionally conservative. It is built to make ordinary computational biology tasks easier to reproduce and harder to falsify. Patient-specific decisions, raw PHI, autonomous wet-lab actions, genome editing, and pathogen engineering stop at a human-review gate.
+- [Interactive browser case study](https://simpliibarrii-crypto.github.io/project.html?project=raven-biocomputer)
+- [Research archive](https://simpliibarrii-crypto.github.io/research.html)
+- [Complete portfolio](https://simpliibarrii-crypto.github.io/)
 
 ## License
 
