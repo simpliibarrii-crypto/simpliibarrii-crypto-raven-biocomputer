@@ -1,7 +1,7 @@
 ---
 title: Raven BioComputer
 emoji: 🧬
-colorFrom: black
+colorFrom: gray
 colorTo: red
 sdk: gradio
 app_file: app.py
